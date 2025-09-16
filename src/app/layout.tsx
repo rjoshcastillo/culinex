@@ -22,21 +22,21 @@ export default function RootLayout({
   const [isMini, setIsMini] = useState(false);
 
   useEffect(() => {
-    if (screenWidth <= 1024) setIsOpen(false), setIsMini(true);
+    if (screenWidth < 1024) setIsOpen(false), setIsMini(true);
   }, [screenWidth]);
 
   return (
-    <html lang="en" className={p_sans.className}>
+    <html lang="en" className={clsx("", p_sans.className)}>
       <body className="h-screen">
         <div className="relative flex">
           {/* Desktop Sidebar */}
-          {screenWidth >= 1024 && (
+          {screenWidth > 1024 && (
             <aside
               onMouseEnter={() => (isMini ? setIsOpen(true) : {})}
               onMouseLeave={() => (isMini ? setIsOpen(false) : {})}
               className={clsx(
                 "transition-all duration-300 overflow-hidden",
-                screenWidth < 1024 || (isMini && !isOpen)
+                screenWidth < 1025 || (isMini && !isOpen)
                   ? "w-[75px]"
                   : "w-[280px]"
               )}
@@ -46,7 +46,7 @@ export default function RootLayout({
           )}
 
           {/* Mobile Overlay Drawer */}
-          {screenWidth < 1024 && (
+          {screenWidth < 1025 && (
             <div
               className={clsx(
                 "fixed inset-0 z-50 transition-colors duration-300",
@@ -76,9 +76,13 @@ export default function RootLayout({
           )}
 
           <main className="flex-1 flex justify-center">
-            <div className="w-full 2xl:w-[70%] xl:w-[90%] transition-all duration-300 flex flex-col h-screen overflow-auto">
+            <div
+              className={clsx(
+                "w-full md:max-w-[1440px] transition-all duration-300 flex flex-col h-screen overflow-auto"
+              )}
+            >
               {/* Top Navigation */}
-              <div className="--top-nav px-6">
+              <div className="--top-nav px-2">
                 <TopNav
                   onClick={() => {
                     setIsMini(!isMini);
@@ -86,7 +90,18 @@ export default function RootLayout({
                   }}
                 />
               </div>
-              <div className="px-6 mt-6 mb-6 w-full">{children}</div>
+              <div className="px-2 mt-6 mb-6 w-full">{children}</div>
+              <div className="py-4 px-2 flex justify-between">
+                <span>© 2025 Company Name. All rights reserved.</span>
+                <div className="flex gap-4 text-violet-400">
+                  <button className="text-violet-400 hover:underline">
+                    Documentations
+                  </button>
+                  <button className="text-violet-400 hover:underline">
+                    Supports
+                  </button>
+                </div>
+              </div>
             </div>
           </main>
         </div>

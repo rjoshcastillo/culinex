@@ -2,7 +2,6 @@
 
 import { X } from "lucide-react";
 import Button from "../ui/Button";
-import DropdownNav from "../ui/DropdownNav";
 import { ReactNode, useEffect } from "react";
 import clsx from "clsx";
 import AddIcon from "@/assets/icons/add-square.svg";
@@ -16,6 +15,8 @@ import ReportIcon from "@/assets/icons/reports.svg";
 import StaffIcon from "@/assets/icons/staffs.svg";
 import CustomerIcon from "@/assets/icons/customers-icon.svg";
 import InventoryIcon from "@/assets/icons/inventory-icon.svg";
+import Collapsible from "../ui/Collapsible";
+import { useRouter } from "next/navigation";
 
 type SideNavProps = {
   className?: string;
@@ -23,57 +24,62 @@ type SideNavProps = {
   onClose?: () => void;
 };
 const SideNav = ({ className, isMini, onClose }: SideNavProps): ReactNode => {
+  const router = useRouter();
   const navItems = [
-    { label: "Dashboard", url: "/", icon: DasbhoardIcon },
+    { label: "Dashboard", value: "/dashboard", icon: DasbhoardIcon },
     {
       label: "Products",
-      url: "/products",
       icon: ProductIcon,
       navs: [
-        { label: "List", url: "/list", icon: ListIcon },
-        { label: "Add", url: "/add", icon: AddIcon },
+        { label: "List", value: "/products", icon: ListIcon },
+        { label: "Add", value: "/add", icon: AddIcon },
         {
           label: "Category",
-          url: "/category",
+          value: "/category",
           icon: categeoryIcon,
         },
       ],
     },
     {
       label: "Inventory",
-      url: "/inventory",
+      value: "/inventory",
       icon: InventoryIcon,
       navs: [
-        { label: "Add", url: "/add", icon: AddIcon },
-        { label: "List", url: "/list", icon: ListIcon },
+        { label: "Add", value: "/add", icon: AddIcon },
+        { label: "List", value: "/list", icon: ListIcon },
       ],
     },
     {
       label: "Orders",
-      url: "/orders",
+      value: "/orders",
       icon: OrderIcon,
       navs: [
-        { label: "List", url: "/list", icon: ListIcon },
-        { label: "Details", url: "/add", icon: DetailsIcon },
+        { label: "List", value: "/list", icon: ListIcon },
+        { label: "Details", value: "/add", icon: DetailsIcon },
       ],
     },
     {
       label: "Customers",
-      url: "/orders",
+      value: "/orders",
       icon: CustomerIcon,
     },
     {
       label: "Staffs",
-      url: "/orders",
+      value: "/orders",
       icon: StaffIcon,
       navs: [
-        { label: "List", url: "/add", icon: AddIcon },
-        { label: "Details", url: "/list", icon: ListIcon },
+        { label: "List", value: "/add", icon: AddIcon },
+        { label: "Details", value: "/list", icon: ListIcon },
       ],
     },
-    { label: "Reports", url: "/orders", icon: ReportIcon },
+    { label: "Reports", value: "/orders", icon: ReportIcon },
   ];
 
+  const redirect = (url: string) => {
+    console.log(url);
+
+    router.push(url);
+  };
   return (
     <div
       className={clsx("w-full bg-accent h-screen shadow-lg px-4", className)}
@@ -85,19 +91,19 @@ const SideNav = ({ className, isMini, onClose }: SideNavProps): ReactNode => {
       <div className="flex flex-col w-full gap-1">
         {navItems.map((item) =>
           item?.navs?.length ? (
-            <DropdownNav
+            <Collapsible
               key={item.label}
               label={isMini ? "" : item.label}
               icon={item.icon}
-              navItems={isMini ? {} : item.navs}
+              items={isMini ? {} : item.navs}
+              onClick={(url) => redirect(url)}
             />
           ) : (
             <Button
+            className="hover:bg-button-2"
               key={item.label}
               icon={item.icon}
-              onClick={() => {
-                console.log(item.url);
-              }}
+              onClick={() => redirect(item.value ?? "/")}
             >
               {isMini ? "" : item.label}
             </Button>

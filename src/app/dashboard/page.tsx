@@ -1,111 +1,388 @@
 "use client";
 
-import React, { useState } from "react";
-import StatisticCard from "@/components/StatisticCard";
-import Chart from "react-apexcharts";
+import React from "react";
+import StatisticCard from "@/components/common/StatisticCard";
+import WeeklySales from "@/components/charts/WeeklySales";
+import Button from "@/components/ui/Button";
+import Image from "next/image";
+import BannerImage from "@/assets/images/banner-image.png";
+import MonthlyProfit from "@/components/charts/MonthlyProfit";
+import SalesByTime from "@/components/charts/SalesByTime";
+import FoodCostVsSales from "@/components/charts/FoodCostVsSales";
+import { STATS_DURATIONS } from "@/utils/constants";
+import { ListFilter } from "lucide-react";
+import BestSellerTable from "@/components/tables/BestSelllerTable";
+import SlowMovingItems from "@/components/tables/SlowMovingItems";
+import LowStockItems from "@/components/tables/LowStockItems";
+import Dropdown from "@/components/ui/Dropdown";
+import Transactions from "@/components/tables/Transactions";
 
 const Dashboard = () => {
-  const series = [
-    {
-      name: "Revenue",
-      data: [
-        120000, 150000, 130000, 170000, 160000, 180000, 200000, 190000, 210000,
-        220000, 230000, 250000,
-      ],
-    },
+  const durations = [
+    { label: "Last Year", value: STATS_DURATIONS.LAST_YEAR },
+    { label: "Last Month", value: STATS_DURATIONS.LAST_MONTH },
+    { label: "Last 7 Days", value: STATS_DURATIONS.LAST_WEEK },
+    { label: "Last 24H", value: STATS_DURATIONS.LAST_24H },
+    { label: "YTD", value: STATS_DURATIONS.YTD },
+    { label: "All Time", value: STATS_DURATIONS.ALLTIME },
   ];
-
-  const options = {
-    chart: {
-      id: "revenue-line",
-    },
-    xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    colors: ["#10B981"],
-    tooltip: {
-      y: {
-        formatter: (val: number) =>
-          val.toLocaleString("en-PH", { style: "currency", currency: "PHP" }),
-      },
-    },
-  };
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {/* Statistic Cards */}
-      <div className="grid w-full gap-4 sx:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+      {/* Banner Section */}
+      <section className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-8 md:py-4 px-6 rounded-lg shadow-lg">
+        <div className="w-full px-6 mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex-1">
+            <h1 className="text-2xl mb-4">
+              Hello, <span className="font-bold">Joshua</span>
+            </h1>
+            <p className="text-md mb-6 md:w-3/5">
+              Take control of your store and manage sales, inventory, and
+              customers effortlessly. Keep everything running smoothly and make
+              smarter business decisions with all the tools you need in one
+              place.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                onClick={() => {}}
+                className="bg-white text-purple-600 font-semibold px-4 py-2 !rounded-full text-sm"
+              >
+                Manage Business
+              </Button>
+            </div>
+          </div>
+          <Image
+            width={230}
+            height={200}
+            src={BannerImage}
+            alt="Business Illustration"
+            className="hidden lg:block"
+          />
+        </div>
+      </section>
+
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <StatisticCard
-          label="Revenue"
+          label="Total Sales"
+          tooltip="Revenue is the total income earned during this period."
           value={326}
           prevValue={300}
           formatValue={(n) =>
             n.toLocaleString("en-PH", { style: "currency", currency: "PHP" })
           }
+          durations={durations}
         />
-        <StatisticCard label="Order" value={423} prevValue={123} />
         <StatisticCard
-          label="Revenue"
+          label="Avg Order Value"
+          tooltip="Expenses are the costs your business pays to operate, such as salaries, rent, and utilities."
+          value={423}
+          prevValue={123}
+          durations={durations}
+          formatValue={(n) =>
+            n.toLocaleString("en-PH", { style: "currency", currency: "PHP" })
+          }
+        />
+        <StatisticCard
+          label="Customers (New)"
+          tooltip="Number of new customers per period"
+          durations={durations}
           value={123}
           prevValue={300}
-          formatValue={(n) =>
-            n.toLocaleString("en-PH", { style: "currency", currency: "PHP" })
-          }
         />
-        <StatisticCard label="Order" value={423} prevValue={123} />
         <StatisticCard
-          label="Revenue"
-          value={444}
-          prevValue={300}
-          formatValue={(n) =>
-            n.toLocaleString("en-PH", { style: "currency", currency: "PHP" })
-          }
+          label="Pending orders"
+          tooltip="Number of pending orders"
+          value={423}
+          prevValue={123}
         />
       </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col w-full gap-4">
+            <div className="h-full">
+              <MonthlyProfit />
+            </div>
+            <SalesByTime />
+          </div>
+          <FoodCostVsSales />
+        </div>
+        <WeeklySales />
+      </div>
 
-      {/* Dashboard Grid: Small Cards + Big Chart */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-        {/* Small cards grid */}
-        <div className="grid grid-cols-2 gap-4 md:col-span-1">
-          <div className="bg-blue-500 p-4 rounded-lg shadow-lg h-34 w-full">
-            Small 1
+      {/* Bottom 3 cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {/* Top Row */}
+        <BestSellerTable />
+        <SlowMovingItems />
+        <LowStockItems />
+        <Transactions />
+
+        {/* Bottom Right (span 2 columns on xl, 1 column on md) */}
+        <div className="w-full bg-white shadow-lg rounded-lg p-4 min-h-[300px]  md:col-span-2 xl:col-span-2">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-4">
+              <span>Show:</span>
+              <Dropdown
+                className="border py-3"
+                defaultValue="10"
+                items={[
+                  { label: "10", value: 10 },
+                  { label: "50", value: 50 },
+                  { label: "100", value: 100 },
+                ]}
+              />
+            </div>
+            <Dropdown
+              className="border py-3"
+              defaultValue="Products"
+              items={[
+                { label: "Reference", value: 10 },
+                { label: "Products", value: 50 },
+                { label: "Status", value: 100 },
+              ]}
+            />
           </div>
-          <div className="bg-green-500 p-4 rounded-lg shadow-lg h-34 w-full">
-            Small 2
-          </div>
-          <div className="bg-yellow-500 p-4 rounded-lg shadow-lg h-34 w-full">
-            Small 3
-          </div>
-          <div className="bg-purple-500 p-4 rounded-lg shadow-lg h-34 w-full">
-            Small 4
+
+          <div className="overflow-y-scroll max-h-[500px]">
+            <table className="w-full text-left border-collapse">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </th>
+                  <th className="p-4">#</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4">Products</th>
+                  <th className="p-4">Date</th>
+                  <th className="p-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* sample rows */}
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
+                      Cancelled
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-green-300 text-green-600 text-xs">
+                      Completed
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
+                      Cancelled
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-green-300 text-green-600 text-xs">
+                      Completed
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
+                      Cancelled
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-gray-300 text-gray-600 text-xs">
+                      Pending
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
+                      Cancelled
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-gray-300 text-gray-600 text-xs">
+                      Pending
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
+                      Cancelled
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                <tr className="border-b border-gray-300 hover:bg-gray-50">
+                  <td className="p-4">
+                    <input type="checkbox" className="transform scale-130" />
+                  </td>
+                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 font-semibold">
+                    <div className="py-1 px-2 rounded-full w-fit bg-green-300 text-green-600 text-xs">
+                      Completed
+                    </div>
+                  </td>
+                  <td className="p-4">Sample</td>
+                  <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
+                  <td className="p-4 space-x-4 text-center whitespace-nowrap">
+                    <button className="text-violet-400 hover:underline">
+                      View
+                    </button>
+                    <span className="text-gray-300">|</span>
+                    <button className="text-red-400 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-
-        {/* Big chart */}
-        <div className="bg-white rounded-lg shadow-lg p-4 md:row-span-2 md:col-span-2">
-          <Chart options={options} series={series} type="line" height={400} />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-red-500 rounded-lg min-h-100 shadow-lg">Col 1</div>
-        <div className="bg-purple-500 rounded-lg shadow-lg">Col 2</div>
-        <div className="bg-yellow-500 rounded-lg shadow-lg">Col 3</div>
-      </div>
-      <div className="w-full bg-yellow-500 shadow-lg rounded-lg min-h-150">
-        Table
       </div>
     </div>
   );

@@ -2,18 +2,28 @@
 
 import clsx from "clsx";
 import { ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CircleIcon from "@/assets/icons/circle.svg";
 
-type CollapsibleProps = {
-  label?: string;
-  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  navItems: Record<string, any>;
+type ItemProps = {
+  label: string;
+  value?: string;
 };
-const DropdownNav = ({
+type SelectItem = ItemProps & {
+  [key: string]: any;
+};
+
+type CollapsibleProps = ItemProps & {
+  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  onClick?: (url: string) => void;
+  items: SelectItem[] | {};
+};
+
+const Collapsible = ({
   label,
   icon: Icon,
-  navItems,
+  items,
+  onClick,
 }: CollapsibleProps): React.ReactNode => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
 
@@ -21,7 +31,7 @@ const DropdownNav = ({
     <ul className="w-full transition-all duration-500">
       <li
         className={clsx(
-          "cursor-pointer p-3 rounded-md flex justify-between items-center hover:bg-button-2",
+          "cursor-pointer p-3 h-[48px] rounded-md flex justify-between items-center hover:bg-button-2",
           isExpanded ? "bg-button-2" : ""
         )}
         onClick={() => setIsExpanded(!isExpanded)}
@@ -45,12 +55,10 @@ const DropdownNav = ({
         }`}
       >
         <ul className={clsx("space-y-1 mt-1")}>
-          {Object.entries(navItems).map(([key, item]) => (
+          {Object.entries(items).map(([key, item]) => (
             <li
-              className="py-3 px-3 rounded-md hover:bg-button-2 cursor-pointer"
-              onClick={() => {
-                console.log(item.url);
-              }}
+              className="py-3 px-3 rounded-md hover:bg-button-2 cursor-pointer transition-all duration-300"
+              onClick={() => onClick?.(item.value ?? "/")}
               key={key}
             >
               <div className="flex items-center gap-2">
@@ -65,4 +73,4 @@ const DropdownNav = ({
   );
 };
 
-export default DropdownNav;
+export default Collapsible;
