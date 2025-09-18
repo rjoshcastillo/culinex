@@ -90,10 +90,14 @@ export default function RootLayout({
                   }}
                 />
               </div>
-              <div className="px-2 mt-6 mb-6 w-full">{children}</div>
-              <div className="py-4 px-2 flex justify-between">
+
+              {/* Page Content */}
+              <div className="px-2 mt-6 mb-6 w-full flex-1">{children}</div>
+
+              {/* Footer (sticks to bottom) */}
+              <div className="md:py-4 px-2 py-10 flex md:justify-between items-center flex-col md:flex-row ">
                 <span>© 2025 Company Name. All rights reserved.</span>
-                <div className="flex gap-4 text-blue-400">
+                <div className="flex gap-4 text-blue-400 ">
                   <button className="text-blue-400 hover:underline">
                     Documentations
                   </button>
