@@ -3,19 +3,16 @@
 import React from "react";
 import StatisticCard from "@/components/common/StatisticCard";
 import WeeklySales from "@/components/charts/WeeklySales";
-import Button from "@/components/ui/Button";
-import Image from "next/image";
-import BannerImage from "@/assets/images/banner-image.png";
 import MonthlyProfit from "@/components/charts/MonthlyProfit";
 import SalesByTime from "@/components/charts/SalesByTime";
 import FoodCostVsSales from "@/components/charts/FoodCostVsSales";
 import { STATS_DURATIONS } from "@/utils/constants";
-import { ListFilter } from "lucide-react";
 import BestSellerTable from "@/components/tables/BestSelllerTable";
 import SlowMovingItems from "@/components/tables/SlowMovingItems";
 import LowStockItems from "@/components/tables/LowStockItems";
 import Dropdown from "@/components/ui/Dropdown";
 import Transactions from "@/components/tables/Transactions";
+import Banner from "@/components/common/Banner";
 
 const Dashboard = () => {
   const durations = [
@@ -30,37 +27,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Banner Section */}
-      <section className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-8 md:py-4 px-6 rounded-lg shadow-lg">
-        <div className="w-full px-6 mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex-1">
-            <h1 className="text-2xl mb-4">
-              Hello, <span className="font-bold">Joshua</span>
-            </h1>
-            <p className="text-md mb-6 md:w-3/5">
-              Take control of your store and manage sales, inventory, and
-              customers effortlessly. Keep everything running smoothly and make
-              smarter business decisions with all the tools you need in one
-              place.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                onClick={() => {}}
-                className="bg-white text-purple-600 font-semibold px-4 py-2 !rounded-full text-sm"
-              >
-                Manage Business
-              </Button>
-            </div>
-          </div>
-          <Image
-            width={230}
-            height={200}
-            src={BannerImage}
-            alt="Business Illustration"
-            className="hidden lg:block"
-          />
-        </div>
-      </section>
-
+      <Banner />
       <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <StatisticCard
           label="Total Sales"
@@ -150,7 +117,7 @@ const Dashboard = () => {
                   <th className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </th>
-                  <th className="p-4">#</th>
+                  <th className="p-4 text-blue-400">#</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Products</th>
                   <th className="p-4">Date</th>
@@ -163,7 +130,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 text-blue-400">#24566</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
                       Cancelled
@@ -172,7 +139,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -185,7 +152,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 text-blue-400">#24565</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-green-300 text-green-600 text-xs">
                       Completed
@@ -194,7 +161,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -207,7 +174,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 text-blue-400">#24566</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
                       Cancelled
@@ -216,7 +183,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -229,7 +196,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 text-blue-400">#24565</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-green-300 text-green-600 text-xs">
                       Completed
@@ -238,7 +205,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -251,7 +218,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 text-blue-400">#24566</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
                       Cancelled
@@ -260,7 +227,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -273,7 +240,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 text-blue-400">#24565</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-gray-300 text-gray-600 text-xs">
                       Pending
@@ -282,7 +249,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -295,7 +262,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 text-blue-400">#24566</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
                       Cancelled
@@ -304,7 +271,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -317,7 +284,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 text-blue-400">#24565</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-gray-300 text-gray-600 text-xs">
                       Pending
@@ -326,7 +293,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -339,7 +306,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24566</td>
+                  <td className="p-4 text-blue-400">#24566</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-red-300 text-red-600 text-xs">
                       Cancelled
@@ -348,7 +315,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>
@@ -361,7 +328,7 @@ const Dashboard = () => {
                   <td className="p-4">
                     <input type="checkbox" className="transform scale-130" />
                   </td>
-                  <td className="p-4 text-violet-400">#24565</td>
+                  <td className="p-4 text-blue-400">#24565</td>
                   <td className="p-4 font-semibold">
                     <div className="py-1 px-2 rounded-full w-fit bg-green-300 text-green-600 text-xs">
                       Completed
@@ -370,7 +337,7 @@ const Dashboard = () => {
                   <td className="p-4">Sample</td>
                   <td className="p-4 whitespace-nowrap">13 Sep 2025</td>
                   <td className="p-4 space-x-4 text-center whitespace-nowrap">
-                    <button className="text-violet-400 hover:underline">
+                    <button className="text-blue-400 hover:underline">
                       View
                     </button>
                     <span className="text-gray-300">|</span>

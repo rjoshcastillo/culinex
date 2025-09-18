@@ -36,7 +36,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       >
         <div
           className={clsx(
-            "text-sm flex gap-2 items-center rounded-lg px-2 h-[48px] justify-between whitespace-nowrap",
+            "text-sm flex gap-2 items-center rounded-lg px-2 h-[44px] justify-between whitespace-nowrap",
             className
           )}
         >
@@ -51,7 +51,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         </div>
         <div
           className={clsx(
-            "flex flex-col bg-white border transition-all duration-300 border-violet-500 shadow-lg absolute right-0 md:left-0 w-fit rounded z-10",
+            "flex flex-col bg-white border transition-all duration-300 border-blue-500 shadow-lg absolute right-0 md:left-0 w-fit rounded z-10",
             toggle
               ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
               : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
@@ -67,7 +67,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               }}
               className={clsx(
                 "transition-all duration-300 whitespace-nowrap",
-                "pl-2 pr-6 py-2 hover:bg-violet-500/70"
+                "pl-2 pr-6 py-2 hover:bg-blue-500/70"
               )}
             >
               {item.label}

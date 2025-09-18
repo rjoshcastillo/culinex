@@ -1,6 +1,16 @@
 "use client";
 
-import { X } from "lucide-react";
+import {
+  ChartCandlestick,
+  HomeIcon,
+  LayoutDashboard,
+  NotepadText,
+  ShoppingBasket,
+  TableProperties,
+  Users,
+  UserStar,
+  X,
+} from "lucide-react";
 import Button from "../ui/Button";
 import { ReactNode, useEffect } from "react";
 import clsx from "clsx";
@@ -16,7 +26,7 @@ import StaffIcon from "@/assets/icons/staffs.svg";
 import CustomerIcon from "@/assets/icons/customers-icon.svg";
 import InventoryIcon from "@/assets/icons/inventory-icon.svg";
 import Collapsible from "../ui/Collapsible";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 type SideNavProps = {
   className?: string;
@@ -25,54 +35,74 @@ type SideNavProps = {
 };
 const SideNav = ({ className, isMini, onClose }: SideNavProps): ReactNode => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  console.log(pathname);
+
   const navItems = [
-    { label: "Dashboard", value: "/dashboard", icon: DasbhoardIcon },
+    {
+      label: "Dashboard",
+      value: "/dashboard",
+      icon: <LayoutDashboard size={16} />,
+      isActive: pathname === "/dashboard",
+    },
     {
       label: "Products",
-      icon: ProductIcon,
+      icon: <ShoppingBasket size={16} />,
       navs: [
-        { label: "List", value: "/products", icon: ListIcon },
-        { label: "Add", value: "/add", icon: AddIcon },
+        {
+          label: "List",
+          value: "/products",
+          isActive: pathname === "/products",
+        },
+        {
+          label: "Add",
+          value: "/products/add",
+          isActive: pathname === "/products/add",
+        },
         {
           label: "Category",
-          value: "/category",
-          icon: categeoryIcon,
+          value: "/products/category",
         },
       ],
     },
     {
       label: "Inventory",
       value: "/inventory",
-      icon: InventoryIcon,
+      icon: <TableProperties size={16} />,
       navs: [
-        { label: "Add", value: "/add", icon: AddIcon },
-        { label: "List", value: "/list", icon: ListIcon },
+        { label: "Add", value: "/add" },
+        { label: "List", value: "/list" },
       ],
     },
     {
       label: "Orders",
       value: "/orders",
-      icon: OrderIcon,
+      icon: <NotepadText size={16} />,
       navs: [
-        { label: "List", value: "/list", icon: ListIcon },
-        { label: "Details", value: "/add", icon: DetailsIcon },
+        { label: "List", value: "/list" },
+        { label: "Details", value: "/add" },
       ],
     },
     {
       label: "Customers",
       value: "/orders",
-      icon: CustomerIcon,
+      icon: <Users size={16} />,
     },
     {
       label: "Staffs",
       value: "/orders",
-      icon: StaffIcon,
+      icon: <UserStar size={16} />,
       navs: [
-        { label: "List", value: "/add", icon: AddIcon },
-        { label: "Details", value: "/list", icon: ListIcon },
+        { label: "List", value: "/add" },
+        { label: "Details", value: "/list" },
       ],
     },
-    { label: "Reports", value: "/orders", icon: ReportIcon },
+    {
+      label: "Reports",
+      value: "/orders",
+      icon: <ChartCandlestick size={16} />,
+    },
   ];
 
   const redirect = (url: string) => {
@@ -94,15 +124,19 @@ const SideNav = ({ className, isMini, onClose }: SideNavProps): ReactNode => {
             <Collapsible
               key={item.label}
               label={isMini ? "" : item.label}
-              icon={item.icon}
+              iconStart={item.icon}
               items={isMini ? {} : item.navs}
               onClick={(url) => redirect(url)}
             />
           ) : (
             <Button
-            className="hover:bg-button-2"
+              className={clsx(
+                item.isActive
+                  ? "bg-blue-500 hover:bg-blue-600 text-white"
+                  : "hover:bg-button-2"
+              )}
               key={item.label}
-              icon={item.icon}
+              iconStart={item.icon}
               onClick={() => redirect(item.value ?? "/")}
             >
               {isMini ? "" : item.label}

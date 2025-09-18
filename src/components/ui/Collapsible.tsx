@@ -1,27 +1,31 @@
 "use client";
 
 import clsx from "clsx";
-import { ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { ChevronRight, CircleSmall } from "lucide-react";
+import { ReactNode, useState } from "react";
 import CircleIcon from "@/assets/icons/circle.svg";
 
 type ItemProps = {
   label: string;
   value?: string;
+  isActive?: boolean;
 };
 type SelectItem = ItemProps & {
   [key: string]: any;
 };
 
 type CollapsibleProps = ItemProps & {
-  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  iconStart?: ReactNode;
+  iconEnd?: ReactNode;
   onClick?: (url: string) => void;
   items: SelectItem[] | {};
+  isActive?: boolean;
 };
 
 const Collapsible = ({
   label,
-  icon: Icon,
+  iconStart,
+  iconEnd,
   items,
   onClick,
 }: CollapsibleProps): React.ReactNode => {
@@ -31,14 +35,15 @@ const Collapsible = ({
     <ul className="w-full transition-all duration-500">
       <li
         className={clsx(
-          "cursor-pointer p-3 h-[48px] rounded-md flex justify-between items-center hover:bg-button-2",
+          "cursor-pointer p-3 h-[44px] rounded-md flex justify-between items-center hover:bg-button-2",
           isExpanded ? "bg-button-2" : ""
         )}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center gap-2">
-          {Icon && <Icon className="w-5 h-5 stroke-current fill-current" />}
-          <span>{label}</span>
+          {iconStart}
+          <span className="text-sm">{label}</span>
+          {iconEnd}
         </div>
         <ChevronRight
           size={18}
@@ -57,12 +62,17 @@ const Collapsible = ({
         <ul className={clsx("space-y-1 mt-1")}>
           {Object.entries(items).map(([key, item]) => (
             <li
-              className="py-3 px-3 rounded-md hover:bg-button-2 cursor-pointer transition-all duration-300"
+              className={clsx(
+                "py-3 px-3 rounded-md  cursor-pointer transition-all duration-300",
+                item.isActive
+                  ? "bg-blue-500 hover:bg-blue-600 text-white"
+                  : "hover:bg-button-2"
+              )}
               onClick={() => onClick?.(item.value ?? "/")}
               key={key}
             >
-              <div className="flex items-center gap-2">
-                <CircleIcon className="h-3 w-3" />
+              <div className="flex items-center gap-2 text-sm">
+                <CircleSmall size={14}/>
                 {item.label}
               </div>
             </li>

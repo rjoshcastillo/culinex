@@ -53,7 +53,7 @@ const StatisticCard = ({
   return (
     <div
       className={clsx(
-        "group",
+        "group relative", // ✅ for absolute icon positioning
         "rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow",
         "p-4 w-full",
         className
@@ -61,48 +61,47 @@ const StatisticCard = ({
       role="region"
       aria-label={`${label} statistic`}
     >
-      {/* Header row */}
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="text-sm text-zinc-500 flex items-center gap-2">
-          {label}
-
-          <div className="group/tooltip relative">
-            <InfoIcon size={14} className="cursor-pointer" />
-            {tooltip && (
+        <div className="flex items-center gap-2 text-sm text-zinc-500">
+          <span>{label}</span>
+          {tooltip && (
+            <div className="group/tooltip relative">
+              <InfoIcon size={14} className="cursor-pointer" />
               <div
                 className={clsx(
-                  "pointer-events-none",
-                  "absolute -translate-x-1/4 -top-8",
-                  "bg-black/80 text-gray-200 text-xs rounded-md px-2 py-2",
+                  "absolute left-1/2 -translate-x-1/2 -top-9",
+                  "bg-black/80 text-gray-200 text-xs rounded-md px-2 py-1",
                   "opacity-0 group-hover/tooltip:opacity-100 transition-opacity",
-                  "min-w-[200px] z-10"
+                  "whitespace-pre-line text-center min-w-[180px] z-10"
                 )}
                 role="tooltip"
               >
                 {tooltip}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         {durations && (
           <Dropdown
+            className="h-auto"
             items={durations}
             onSelect={(item) => console.log(item)}
-            defaultValue={"Last 24H"}
+            defaultValue={durations[0]?.label ?? "Select"}
           />
         )}
       </div>
 
-      {/* Value + % difference */}
-      <div className="mt-8 min-w-0 flex justify-between">
-        <div className="text-2xl sm:text-2xl font-semibold">{displayValue}</div>
+      {/* Value & % Difference */}
+      <div className="mt-8 flex items-center justify-between">
+        <div className="text-2xl font-semibold truncate">{displayValue}</div>
         {showDifference && (
           <div
             className={clsx(
-              "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-sm font-medium w-auto",
+              "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-sm font-medium",
               isUp
-                ? "bg-green-500 text-green-500 dark:bg-green-500/20"
-                : "bg-rose-500 text-rose-700 dark:bg-rose-500/20"
+                ? "bg-green-100 text-green-600 dark:bg-green-500/20"
+                : "bg-rose-100 text-rose-600 dark:bg-rose-500/20"
             )}
             aria-live="polite"
           >
@@ -118,9 +117,9 @@ const StatisticCard = ({
         )}
       </div>
 
-      {/* Background icon */}
+      {/* Background Icon */}
       {Icon && (
-        <div className="absolute right-3 bottom-2">
+        <div className="absolute right-3 bottom-2 opacity-10 group-hover:opacity-20 transition-opacity">
           <Icon className="w-14 h-14" />
         </div>
       )}

@@ -2,13 +2,13 @@
 
 import { useScreenWidth } from "@/utils/useScreenWidth";
 import "./globals.css";
-import { Public_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import SideNav from "@/components/layout/SideNav";
 import TopNav from "@/components/layout/TopNav";
 
-const p_sans = Public_Sans({
+const font = Inter({
   subsets: ["latin"],
 });
 
@@ -26,7 +26,7 @@ export default function RootLayout({
   }, [screenWidth]);
 
   return (
-    <html lang="en" className={clsx("", p_sans.className)}>
+    <html lang="en" className={clsx("", font.className)}>
       <body className="h-screen">
         <div className="relative flex">
           {/* Desktop Sidebar */}
@@ -93,11 +93,11 @@ export default function RootLayout({
               <div className="px-2 mt-6 mb-6 w-full">{children}</div>
               <div className="py-4 px-2 flex justify-between">
                 <span>© 2025 Company Name. All rights reserved.</span>
-                <div className="flex gap-4 text-violet-400">
-                  <button className="text-violet-400 hover:underline">
+                <div className="flex gap-4 text-blue-400">
+                  <button className="text-blue-400 hover:underline">
                     Documentations
                   </button>
-                  <button className="text-violet-400 hover:underline">
+                  <button className="text-blue-400 hover:underline">
                     Supports
                   </button>
                 </div>

@@ -4,24 +4,26 @@ import clsx from "clsx";
 import { forwardRef, ReactElement, ReactNode, SVGProps } from "react";
 
 type ButtonProps = React.ComponentProps<"button"> & {
-  icon?: React.FC<SVGProps<SVGSVGElement>>;
+  iconStart?: ReactNode;
+  iconEnd?: ReactNode;
   children?: ReactNode;
 };
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, className, icon: Icon, ...props }, ref) => {
+  ({ children, className, iconStart, iconEnd, ...props }, ref) => {
     return (
       <button
         ref={ref}
         {...props}
         className={clsx(
-          "cursor-pointer p-3 h-[48px] rounded-md flex gap-2 items-center transition-all duration-300",
+          "cursor-pointer p-3 h-[44px] rounded-md flex gap-2 items-center transition-all duration-300",
           className
         )}
       >
-        <div className="flex items-center gap-2">
-          {Icon && <Icon className="w-5 h-5 stroke-current fill-current" />}
+        <div className="flex items-center w-full gap-2">
+          {iconStart}
+          <span className="text-sm">{children}</span>
+          {iconEnd && <div className="ml-auto">{iconEnd}</div>}
         </div>
-        <span className="mr-2">{children}</span>
       </button>
     );
   }
